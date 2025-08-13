@@ -1,0 +1,13 @@
+{
+  "name": "cordova-plugin-electron-fileopener",
+  "version": "1.0.0",
+  "description": "file Opener plugin support for electron",
+  "main": "FileOpener2.js",
+  "license": "UNLICENSED",
+  "scripts": {
+    "postinstall": "npm install"
+  },
+  "cordova": {
+    "serviceName": "FileOpener2"
+  }
+}

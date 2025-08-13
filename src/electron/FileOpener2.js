@@ -21,15 +21,22 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 // https://www.electronjs.org/docs/api/shell
-const { shell } = global.require('electron');
+const { shell } = require('electron');
+
 module.exports = {
-  open: function (onSuccess, onError, fileName) {
-    var opn = shell.openItem(fileName[0]);
-    if (opn === true) {
-      onSuccess(true);
-    } else {
-      onError({'status': 0, 'message': 'Failed opening file.'});
+  open: async function (fileName) {
+    try {
+      const rawPath = fileName[0];
+      const result = await shell.openPath(rawPath);
+
+      if (result === '') {
+        return true;
+      } else {
+        throw new Error(result || 'Unknown error opening file');
+      }
+    } catch (err) {
+      throw new Error(err.message || 'Failed opening file.');
     }
   }
 };
-require('cordova/exec/proxy').add('FileOpener2', module.exports);
+
